@@ -32,8 +32,14 @@ const storage = multer.diskStorage({
   },
 });
 
+const post_controller = require("../controllers/postController");
+
 const upload = multer({ storage: storage });
 
-post_route.post("/create-post");
+post_route.post(
+  "/create-post",
+  upload.single("image"),
+  post_controller.createPost
+);
 
 module.exports = post_route;
