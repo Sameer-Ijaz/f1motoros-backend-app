@@ -43,5 +43,6 @@ post_route.post(
 );
 
 post_route.get("/get-post", post_controller.getPosts);
+post_route.delete("/delete-post/:id", post_controller.deletePosts);
 
 module.exports = post_route;
