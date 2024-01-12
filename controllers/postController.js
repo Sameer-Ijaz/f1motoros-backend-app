@@ -14,6 +14,16 @@ const createPost = async (req, res) => {
   }
 };
 
+const getPosts = async (req, res) => {
+  try {
+    const post = await Post.find({});
+    res.status(200).send({ success: true, msg: "Posts", data: post });
+  } catch (error) {
+    res.status(400).send({ success: false, msg: error.message });
+  }
+};
+
 module.exports = {
   createPost,
+  getPosts,
 };
