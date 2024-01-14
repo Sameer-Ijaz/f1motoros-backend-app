@@ -1,14 +1,14 @@
 const express = require("express");
-const post_route = express();
+const car_route = express();
 const bodyParser = require("body-parser");
 
-post_route.use(bodyParser.json());
-post_route.use(bodyParser.urlencoded({ extended: true }));
+car_route.use(bodyParser.json());
+car_route.use(bodyParser.urlencoded({ extended: true }));
 
 const multer = require("multer"); // used for uploading files
 const path = require("path");
 
-post_route.use(express.static("public")); // used for making a folder visible to client side.
+car_route.use(express.static("public")); // used for making a folder visible to client side.
 
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
@@ -32,22 +32,13 @@ const storage = multer.diskStorage({
   },
 });
 
-const post_controller = require("../controllers/postController");
+const car_controller = require("../controllers/carController");
 
 const upload = multer({ storage: storage });
 
-post_route.post(
-  "/create-post",
-  upload.single("image"),
-  post_controller.createPost
-);
+car_route.post("/add-car", upload.single("image"), car_controller.createCar);
+car_route.get("/get-cars", car_controller.getCars);
+car_route.put("/update-car", upload.single("image"), car_controller.updateCars);
+car_route.delete("/delete-car/:id", car_controller.deleteCars);
 
-post_route.get("/get-post", post_controller.getPosts);
-post_route.put(
-  "/update-post",
-  upload.single("image"),
-  post_controller.updatePosts
-);
-post_route.delete("/delete-post/:id", post_controller.deletePosts);
-
-module.exports = post_route;
+module.exports = car_route;
